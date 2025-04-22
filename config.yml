@@ -1,0 +1,18 @@
+# PBIX Insights Generator Configuration
+
+# Extraction settings
+extraction:
+  temp_dir: '/tmp/pbix_extract'
+  max_file_size_mb: 100
+
+# API settings
+api:
+  host: '127.0.0.1'
+  port: 8000
+
+# Insights generation settings
+insights:
+  max_recommendations: 5 # Maximum number of insights to generate
+  analyze_performance: true
+  analyze_data_model: true
+  analyze_visuals: true
