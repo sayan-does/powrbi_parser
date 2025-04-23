@@ -1,31 +1,28 @@
 FROM python:3.9-slim
 
-WORKDIR /app
-
 # Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    unzip \
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt /app/
+WORKDIR /app
 
-# Install Python dependencies
+# Copy requirements and install dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Create temp directory for PBIX extraction
-RUN mkdir -p /tmp/pbix_extract
-
 # Copy application files
-COPY main.py /app/
-COPY config.yml /app/
-COPY test.py /app/
+COPY main.py .
+COPY structure_parser.py .
+COPY text_parser.py .
+COPY visual_parser.py .
+COPY config.yml .
 
-# Expose API port
+# Expose port
 EXPOSE 8000
 
-# Set environment variable to run in non-interactive mode
-ENV PYTHONUNBUFFERED=1
-
-# Run the application
-CMD ["python", "main.py"]
+# Command to run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

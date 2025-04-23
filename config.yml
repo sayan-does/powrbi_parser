@@ -1,18 +1,27 @@
-# PBIX Insights Generator Configuration
+# Configuration for dashboard data extraction
 
-# Extraction settings
-extraction:
-  temp_dir: '/tmp/pbix_extract'
-  max_file_size_mb: 100
+# Layout analysis configuration
+layout:
+  min_region_area: 200 
+  header_threshold: 0.15 
+  table_width_threshold: 0.3
+  chart_width_threshold: 0.2 
 
-# API settings
-api:
-  host: '0.0.0.0'
-  port: 8000
+# Text extraction configuration
+text:
+  kpi_patterns:
+    - "([A-Za-z\\s]+):\\s*([^\\n]+)" # Key: Value
+    - "([A-Za-z\\s]+)\\s*-\\s*([^\\n]+)" # Key - Value
+    - "([A-Za-z\\s]+)\\s*=\\s*([^\\n]+)" # Key = Value
 
-# Insights generation settings
-insights:
-  max_recommendations: 5 # Maximum number of insights to generate
-  analyze_performance: true
-  analyze_data_model: true
-  analyze_visuals: true
+# Visual element extraction configuration
+visual:
+  table:
+    min_cell_height: 20
+    min_cell_width: 40
+  chart:
+    types:
+      - bar_chart
+      - line_chart
+      - pie_chart
+      - scatter_plot
